@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import productsApi from './api/productApi';
+import Header from './components/Header';
+import AlbumFeature from './features/Album';
+import CounterFeature from './features/Counter';
+import TodoFeature from './features/Todo';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const params = {
+                _limit: 10,
+            };
+            const productList = await productsApi.getAll(params);
+        };
+
+        fetchProducts();
+    }, []);
+
+    return (
+        <div className="App">
+            <Header />
+
+            <Routes>
+                <Route path="/" element={<CounterFeature />} />
+                <Route path="/todos" element={<TodoFeature />} />
+                <Route path="/albums" element={<AlbumFeature />} />
+                {/* <Route path="*" element={<NotFound />} /> */}
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
