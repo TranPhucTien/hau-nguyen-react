@@ -77,10 +77,8 @@ function LoginForm(props) {
             </Typography>
 
             <form onSubmit={form.handleSubmit(handleSubmit)}>
-                <InputField name="fullName" label="Full Name" form={form} />
-                <InputField name="email" label="Email" form={form} />
+                <InputField name="identifier" label="Email" form={form} />
                 <PasswordField name="password" label="Password" form={form} />
-                <PasswordField name="retypePassword" label="Retype Password" form={form} />
 
                 <Button
                     disabled={isSubmitting}
