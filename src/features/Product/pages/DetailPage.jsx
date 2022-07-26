@@ -1,11 +1,18 @@
-import { Box, Container, Grid, Paper } from '@mui/material';
-import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { Box, Container, Grid, LinearProgress, Paper } from '@mui/material';
+import { Route, Routes, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import AddToCartForm from '../components/AddToCartForm';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductDescription from '../components/ProductDescription';
+import ProductInfo from '../components/ProductInfo';
+import ProductMenu from '../components/Productmenu';
+import ProductReview from '../components/ProductReview';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hooks/useProductDetail';
 
-const BoxRoot = styled(Box)({});
+const BoxRoot = styled(Box)({
+    paddingBottom: '24px',
+});
 
 const GridLeft = styled(Grid)({
     width: '400px',
@@ -18,14 +25,29 @@ const GridRight = styled(Grid)({
     padding: '12px',
 });
 
+const LoadingBox = styled(Box)({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+});
+
 function DetailPage() {
     const { productId } = useParams();
 
     const { product, loading } = useProductDetail(productId);
 
     if (loading) {
-        return <Box>Loading...</Box>
+        return (
+            <LoadingBox>
+                <LinearProgress />
+            </LoadingBox>
+        );
     }
+
+    const handleAddToCartSubmit = (formValues) => {
+        console.log('Form submit: ', formValues);
+    };
 
     return (
         <BoxRoot>
@@ -36,9 +58,19 @@ function DetailPage() {
                             <ProductThumbnail product={product} />
                         </GridLeft>
 
-                        <GridRight item>Product info</GridRight>
+                        <GridRight item>
+                            <ProductInfo product={product} />
+                            <AddToCartForm onSubmit={handleAddToCartSubmit} />
+                        </GridRight>
                     </Grid>
                 </Paper>
+
+                <ProductMenu />
+                <Routes>
+                    <Route path="/" element={<ProductDescription product={product} />} />
+                    <Route path="additional" element={<ProductAdditional />} />
+                    <Route path="reviews" element={<ProductReview />} />
+                </Routes>
             </Container>
         </BoxRoot>
     );

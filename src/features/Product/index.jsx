@@ -1,18 +1,16 @@
-import { Box } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
-import DetailPage from "./pages/DetailPage";
-import ListPage from "./pages/ListPage";
+import { Box } from '@mui/material';
+import { Route, Routes } from 'react-router-dom';
+import DetailPage from './pages/DetailPage';
+import ListPage from './pages/ListPage';
 
-ProductFeature.propTypes = {
-    
-};
+ProductFeature.propTypes = {};
 
-function ProductFeature(props) {
+function ProductFeature() {
     return (
         <Box pt={4}>
             <Routes>
                 <Route path="/" element={<ListPage />} />
-                <Route path="/:productId" element={<DetailPage />} />
+                <Route path="/:productId/*" element={<DetailPage />} />
             </Routes>
         </Box>
     );

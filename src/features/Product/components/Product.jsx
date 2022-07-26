@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { STATIC_HOST, THUMBNAIL_PLACEHOLDER } from '~/constants';
+import { formatPrice } from '~/utils';
 
 Product.propTypes = {
     product: PropTypes.object,
@@ -12,7 +13,7 @@ function Product({ product }) {
     const thumbnailUrl = product.thumbnail ? `${STATIC_HOST}${product.thumbnail?.url}` : THUMBNAIL_PLACEHOLDER;
 
     const handleClick = () => {
-        navigate(`/products/${product.id}`);
+        navigate(`/products/${product.id}/`);
     };
 
     return (
@@ -24,7 +25,7 @@ function Product({ product }) {
             <Typography variant="body2">{product.name}</Typography>
             <Typography variant="body2">
                 <Box component="span" fontSize="16px" fontWeight={'bold'} mr={1}>
-                    {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.salePrice)}
+                    {formatPrice(product.salePrice)}
                 </Box>
 
                 {product.promotionPercent > 0 ? ` -${product.promotionPercent}%` : ''}
