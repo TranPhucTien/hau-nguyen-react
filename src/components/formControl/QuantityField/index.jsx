@@ -11,8 +11,6 @@ QuantityField.propTypes = {
     disabled: PropTypes.bool,
 };
 
-const Root = styled(Box)({});
-
 const BoxCustom = styled(Box)({
     display: 'flex',
     flexFlow: 'row nowrap',

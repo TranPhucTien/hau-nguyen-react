@@ -1,6 +1,5 @@
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 FilterByService.propTypes = {

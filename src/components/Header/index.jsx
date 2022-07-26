@@ -1,6 +1,6 @@
-import { AccountCircle, Close } from '@mui/icons-material';
+import { AccountCircle, Close, ShoppingCart } from '@mui/icons-material';
 import CodeIcon from '@mui/icons-material/Code';
-import { Menu, MenuItem } from '@mui/material';
+import { Badge, Menu, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -11,10 +11,11 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Login from '~/features/Auth/components/Login';
 import Register from '~/features/Auth/components/Register';
 import { logout } from '~/features/Auth/userSlice';
+import { cartItemCountSelector } from '~/features/Cart/selectors';
 
 const classes = {
     root: {},
@@ -41,7 +42,9 @@ const MODE = {
 export default function ButtonAppBar() {
     const dispatch = useDispatch();
     const loggedInUser = useSelector((state) => state.user.current);
+    const cartItemsCount = useSelector(cartItemCountSelector);
     const isLoggedIn = !!loggedInUser.id;
+    const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState(MODE.LOGIN);
@@ -68,7 +71,11 @@ export default function ButtonAppBar() {
     const handleLogoutClick = () => {
         const action = logout();
         dispatch(action);
-        handleCloseMenu()
+        handleCloseMenu();
+    };
+
+    const handleCartClick = () => {
+        navigate('/cart');
     };
 
     return (
@@ -89,6 +96,16 @@ export default function ButtonAppBar() {
                     <NavLink to="/albums" style={{ ...classes.linkStyle }}>
                         <Button color="inherit">Albums</Button>
                     </NavLink>
+                    <NavLink to="/products" style={{ ...classes.linkStyle }}>
+                        <Button color="inherit">Products</Button>
+                    </NavLink>
+
+                    <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleCartClick}>
+                        <Badge badgeContent={cartItemsCount} color="error">
+                            <ShoppingCart />
+                        </Badge>
+                    </IconButton>
+
                     {!isLoggedIn && (
                         <Button color="inherit" onClick={handleClickOpen}>
                             Login
